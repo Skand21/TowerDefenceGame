@@ -2,6 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+/* Задает характеристики и вектор пули
+* Пуля уничтожается, когда касается НЕ миньона */
+
+
 public class Move_Sphere : MonoBehaviour
 {
     public GameObject Sphere;
@@ -19,8 +24,11 @@ public class Move_Sphere : MonoBehaviour
             transform.position = Vector3.MoveTowards(transform.position, HeroPoint, Time.deltaTime * speed);
             switcher = true;
         }
+    }
 
-        if (transform.position.y <= 2.5) // Уничтожает шар, если он коснулся пола
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (!collision.transform.gameObject.CompareTag("Enemy"))
         {
             Destroy(gameObject);
         }
