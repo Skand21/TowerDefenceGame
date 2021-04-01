@@ -7,17 +7,20 @@ public class Move_Sphere : MonoBehaviour
     public GameObject Sphere;
     public Vector3 HeroPoint;
     public float speed;
-    public int i = 0;
+    bool switcher;
+
+    public int damagebutton = 100; // Урон, который наносит пуля
 
     void Update()
     {
-        if (i == 0)// Пока шар не прилетел к цели
+
+        if (switcher == false) // Пока шар не прилетел к цели
         {
             transform.position = Vector3.MoveTowards(transform.position, HeroPoint, Time.deltaTime * speed);
-            i = 1;
+            switcher = true;
         }
 
-        if (transform.position.y <= 2.5)// Уничтожает шар, если он коснулся пола
+        if (transform.position.y <= 2.5) // Уничтожает шар, если он коснулся пола
         {
             Destroy(gameObject);
         }

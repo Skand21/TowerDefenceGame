@@ -4,6 +4,12 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+
+
+/* Работа с кнопками 
+ * создаёт турели разных типов
+*/
+
 public class Main : MonoBehaviour
 {
     public GameObject Turett; // Перфаб турели
@@ -16,7 +22,7 @@ public class Main : MonoBehaviour
     {
         if (swicher == true)
         {
-            Debug.Log(swicher);
+
             Vector3 mouse = Input.mousePosition;
             Ray castPoint = Camera.main.ScreenPointToRay(mouse);
             RaycastHit hit;
@@ -40,7 +46,8 @@ public class Main : MonoBehaviour
     public void OnClickCreateTurett() // По нажаии кнопку (0) создается турель
     {
         swicher = true;
-
+        
         NewTurret = Instantiate(Turett, transform.position, transform.rotation);
+        
     }
 }

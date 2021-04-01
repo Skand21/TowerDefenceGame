@@ -27,16 +27,14 @@ public class Raycast : MonoBehaviour
     
     public int time = 1;
     public int speed = 500;
-    public string colour = "0";
+    public Color color;
     
     Animator anim;
 
     void Awake()
     {
         anim = GetComponent<Animator>();
-
         enemys = GameObject.FindGameObjectsWithTag("Enemy");
-
     }
 
     void FixedUpdate()
@@ -64,6 +62,7 @@ public class Raycast : MonoBehaviour
                 Script_sphere.HeroPoint = min_goal.transform.position; // Передается координата Hero в скрипт на сфере
 
                 Invoke("Short", time);
+                
             }
         }
     }
@@ -77,6 +76,7 @@ public class Raycast : MonoBehaviour
 
         Transform BulletInstance = Instantiate(Sphere.transform, transform.position, Quaternion.identity);
         BulletInstance.GetComponent<Rigidbody>().AddForce(transform.forward * speed);
+        
 
         triggerShoot = false;
         ShootingSound.Play();

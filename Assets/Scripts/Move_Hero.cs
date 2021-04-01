@@ -8,11 +8,13 @@ public class Move_Hero : MonoBehaviour
     public GameObject Camera;
     public GameObject VisibilityFloor;
     private Vector3 lastMouse = new Vector3(255, 255, 255); //kind of in the middle of the screen, rather than at the top (play)
-        float camSens = 0.2f; //How sensitive it with mouse
+    float camSens = 0.2f; //How sensitive it with mouse
+
 
     public int speedRotation = 3;
     public int speed = 5;
     public int jumpSpeed = 50;
+    
 
     void Start()
     {
@@ -22,11 +24,11 @@ public class Move_Hero : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
         {
-            player.transform.position += player.transform.forward * speed * 3 * Time.deltaTime;
+            player.transform.position += player.transform.forward * speed * 5 * Time.deltaTime;
         }
         if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
         {
-            player.transform.position -= player.transform.forward * speed * 3 * Time.deltaTime;
+            player.transform.position -= player.transform.forward * speed * 5 * Time.deltaTime;
         }
         if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
         {
