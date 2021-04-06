@@ -5,4 +5,5 @@ using UnityEngine;
 public class Hero_lvl1 : MonoBehaviour
 {
     public int health = 500;
+    public int speed = 2;
 }

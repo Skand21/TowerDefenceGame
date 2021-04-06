@@ -20,7 +20,7 @@ public class Raycast : MonoBehaviour
     public GameObject min_goal; // Ближайшая цель для турели
     int numbers_enemies = 10; // Количество противников
 
-
+    bool activate = false;
     /* Здесь находятся параметры
      * которые будут меняться, добавляться
      * или внедряться в из других скриптов */
@@ -31,38 +31,37 @@ public class Raycast : MonoBehaviour
     
     Animator anim;
 
-    void Awake()
-    {
-        anim = GetComponent<Animator>();
-        enemys = GameObject.FindGameObjectsWithTag("Enemy");
-    }
 
     void FixedUpdate()
     {
-        
-        Rotating();
-        Shooting(time);
-
+        if (activate)
+        {
+            Rotating();
+            Shooting(time);
+        }
     }
-
 
     void Shooting(int time)
     {
-        
+
         Ray ray = new Ray(transform.position, transform.forward); // Задаём Райкаст
         RaycastHit hit;
         Physics.Raycast(ray, out hit, 100);
 
-        if (hit.collider.transform.gameObject.CompareTag("Enemy")) // Если луч попадает в игрока
+        if (hit.collider != null)
         {
-            if (triggerShoot == false)
-
+            if (hit.collider.transform.gameObject.CompareTag("Enemy")) // Если луч попадает в игрока
             {
-                triggerShoot = true;
-                Script_sphere.HeroPoint = min_goal.transform.position; // Передается координата Hero в скрипт на сфере
 
-                Invoke("Short", time);
-                
+                if (triggerShoot == false)
+
+                {
+                    triggerShoot = true;
+                    Script_sphere.HeroPoint = min_goal.transform.position; // Передается координата Hero в скрипт на сфере
+
+                    Invoke("Short", time);
+
+                }
             }
         }
     }
@@ -76,7 +75,7 @@ public class Raycast : MonoBehaviour
 
         Transform BulletInstance = Instantiate(Sphere.transform, transform.position, Quaternion.identity);
         BulletInstance.GetComponent<Rigidbody>().AddForce(transform.forward * speed);
-        
+
 
         triggerShoot = false;
         ShootingSound.Play();
@@ -86,9 +85,9 @@ public class Raycast : MonoBehaviour
     void Rotating()
     {
         /* Производит кручение турели */
-        
-            AudioSource AS = GetComponent<AudioSource>();
 
+        if (min_goal != null)
+        {
             Len_L = Vector3.Distance(Burrel_L.transform.position, min_goal.transform.position);
             Len_R = Vector3.Distance(Burrel_R.transform.position, min_goal.transform.position);
 
@@ -101,18 +100,28 @@ public class Raycast : MonoBehaviour
             {
                 Gun.transform.Rotate(0, 1, 0, Space.Self); // Турель крутится по часовой
             }
+        }
     }
 
-    private void OnTriggerEnter(Collider col)
+    void OnTriggerEnter(Collider col)
     {
-
         /* Ищем ближайшую цель*/
+        activate = true;
 
+        numbers_enemies = enemys.Length;
         for (var i = 0; i < numbers_enemies; i++)
         {
-            if (Vector3.Distance(Burrel_L.transform.position, min_goal.transform.position) > Vector3.Distance(Burrel_L.transform.position, enemys[i].transform.position))
+            Debug.Log(numbers_enemies);
+            if (min_goal != null)
             {
-                min_goal = enemys[i]; // Минимальное расстояние обновлено
+                if (Vector3.Distance(Burrel_L.transform.position, min_goal.transform.position) > Vector3.Distance(Burrel_L.transform.position, enemys[i].transform.position))
+                {
+                    min_goal = enemys[i]; // Минимальное расстояние обновлено
+                }
+            }
+            else
+            {
+                min_goal = enemys[0];
             }
         }
     }
